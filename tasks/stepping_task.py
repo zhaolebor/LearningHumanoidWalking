@@ -264,10 +264,11 @@ class SteppingTask(object):
 
         ## GENERATE STEP SEQUENCE
         # select a walking 'mode'
-        self.mode = np.random.choice(
-            [WalkModes.CURVED, WalkModes.STANDING, WalkModes.BACKWARD, WalkModes.LATERAL, WalkModes.FORWARD],
-            #p=[0.15, 0.05, 0.2, 0.3, 0.3])
-            p=[0.0, 0.0, 0.0, 0.0, 1.0])
+        # self.mode = np.random.choice(
+        #     [WalkModes.CURVED, WalkModes.STANDING, WalkModes.BACKWARD, WalkModes.LATERAL, WalkModes.FORWARD],
+        #     #p=[0.15, 0.05, 0.2, 0.3, 0.3])
+        #     p=[0.0, 0.0, 0.0, 0.0, 1.0])
+        self.mode = WalkModes.FORWARD
 
         d = {'step_size':0.3, 'step_gap':0.15, 'step_height':0, 'num_steps':20, 'curved':False, 'lateral':False}
         # generate sequence according to mode
@@ -307,3 +308,6 @@ class SteppingTask(object):
         self._client.model.geom('floor').pos[:] = np.array([0, 0, 0])
         if self.mode == WalkModes.FORWARD:
             self._client.model.geom('floor').pos[:] = np.array([0, 0, -100])
+            self._client.model.geom('floor').group = 3                                                                                  
+            self._client.model.geom('floor').conaffinity = 0                                                                            
+            self._client.model.geom('floor').contype = 0
