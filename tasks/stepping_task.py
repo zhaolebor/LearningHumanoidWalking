@@ -144,7 +144,10 @@ class SteppingTask(object):
             x += step_size
             y *= -1
             if i > c: # let height of first few steps equal to 0
-                z += step_height
+                new_step_height = step_height * np.random.uniform(1.0, 2.0)
+                # new_step_height = step_height
+                print('Step height:', new_step_height)
+                z += new_step_height
             step = np.array([x, y, z, 0])
             sequence.append(step)
         return sequence
@@ -287,6 +290,7 @@ class SteppingTask(object):
         elif self.mode == WalkModes.FORWARD:
             h = np.clip((self.iteration_count-3000)/8000, 0, 1)*0.1
             d['step_height']=np.random.choice([-h, h])
+            d['step_size'] *= np.random.uniform(0.8, 1.2)
         else:
             raise Exception("Invalid WalkModes")
         sequence = self.generate_step_sequence(**d)
